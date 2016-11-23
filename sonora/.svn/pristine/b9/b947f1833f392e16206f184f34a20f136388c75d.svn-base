@@ -1,0 +1,52 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.edu.ifsc.sonora.entidade;
+
+/**
+ *
+ * @author renato
+ */
+public class Configuration extends AbstractEntity {
+
+    private String ipSonora;
+    private String ipUsuario;
+    private String ipLocalizacao;
+
+    @Override
+    public String toString() {
+        return String.format("IP-SONORA:\t%s\nIP-USUARIO:\t%s\nIP-LOCALIZACAO:\t%s\n",
+                getIpSonora(), getIpUsuario(), getIpLocalizacao());
+    }
+
+    /**
+     * @return the ipSonora
+     */
+    public String getIpSonora() {
+        return ipSonora;
+    }
+
+    public void setIpSonora(String ipSonora) {
+        this.ipSonora = ipSonora;
+    }
+
+    public String getIpUsuario() {
+        return ipUsuario;
+    }
+
+    public void setIpUsuario(String ipUsuario) {
+        this.ipUsuario = ipUsuario;
+    }
+
+    public String getIpLocalizacao() {
+        return ipLocalizacao;
+    }
+
+    public void setIpLocalizacao(String ipLocalizacao) {
+        this.ipLocalizacao = ipLocalizacao;
+    }
+
+    
+}

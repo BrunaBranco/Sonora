@@ -1,0 +1,80 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.edu.ifsc.sonora.service;
+
+import br.edu.ifsc.sonora.dao.SonoraDAO;
+import br.edu.ifsc.sonora.entidade.Sonora;
+import br.edu.ifsc.sonora.util.Notificacao;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+/**
+ *
+ * @author renato
+ */
+@Named
+@ApplicationScoped
+public class SonoraController extends AbstractNoSQLController<Sonora, SonoraDAO> {
+
+    @Inject
+    private SonoraDAO dao;
+    @Inject
+    private ConfigurationController configurationController;
+
+    private String rfid;
+
+    public String getRfid() {
+        return rfid;
+    }
+
+    public void setRfid(String rfid) {
+        this.rfid = rfid;
+    }
+
+    @PostConstruct
+    @Override
+    public void init() {
+        super.init();
+    }
+
+    @Override
+    public SonoraDAO getDao() {
+        return dao;
+    }
+
+    @Override
+    public List<Sonora> getAll() {
+        return super.getAll();
+    }
+
+    @Override
+    public Sonora newInstance() {
+        return new Sonora();
+    }
+
+    @Override
+    public String getModule() {
+        return "Sonora";
+    }
+
+    public void consulta() {
+        try {
+            Map map = Notificacao.getMapJson(configurationController.getAtual().getIpSonora() + "/sonora/tag/" + rfid);
+            String res = (String) map.get("descricao");
+            Notificacao.callUrl(configurationController.getAtual().getIpSonora() + "/talk/" + res);
+
+        } catch (Exception ex) {
+            Logger.getLogger(SonoraController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+}

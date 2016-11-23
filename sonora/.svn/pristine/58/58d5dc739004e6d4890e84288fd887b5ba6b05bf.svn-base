@@ -1,0 +1,49 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.edu.ifsc.sonora.dao;
+
+import br.edu.ifsc.sonora.entidade.Usuario;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
+/**
+ *
+ * @author aluno
+ */
+public class UsuarioDAO extends AbstractNoSQLDAO<Usuario> {
+
+    @Inject
+    private MongoConnectionFactory mongoFactory;
+
+    public UsuarioDAO() {
+        super();
+    }
+
+    @PostConstruct
+    public void init() {
+        init(Usuario.class);
+    }
+
+    @Override
+    public Usuario newInstance() {
+        return new Usuario();
+    }
+
+    @Override
+    public MongoConnectionFactory getMongoFactory() {
+        return mongoFactory;
+    }
+
+    public Usuario findByRfid(String email) throws Exception {
+
+        Usuario res = getObject("email", email);
+        if (res != null) {
+            return res;
+        }
+        throw new Exception("Email Não encontrado");
+    }
+    
+}

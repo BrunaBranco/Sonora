@@ -1,0 +1,101 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:decorate template="template/template.xhtml">
+        <ui:define name="centro">
+
+            <h:form id="form" >
+                <b:container fluid="true"> 
+                    <b:row>
+                        <b:jumbotron>
+                            <h1>Bem-vindo ao Sonora</h1>
+                        </b:jumbotron>
+                    </b:row>
+                </b:container>
+                <b:row>
+                    <b:column col-xs="12" col-sm="6" col-md="8">
+                        <!--<b:thumbnail>-->
+                            <a href="descricao.xhtml">
+                                <img src="#{request.contextPath}/imagens/sonora.png" alt="Generic placeholder thumbnail"/>
+                            </a>
+                            <!--<f:facet name="caption">-->
+                                <h3>Sonora</h3>
+                                <p>Imagine um mundo onde a visão passa a ser mero detalhe? Conheça o 
+                                    <b>Sonora</b>: Ambiente de Audiodescriçao Automatizada de Ambientes.</p>
+                            <!--</f:facet>
+                        </b:thumbnail>-->
+                    </b:column>
+                    <b:column col-xs="6" col-sm="6" col-md="4">
+                        <b:panel id="main" title="Cadastre-se no Sonora" collapsible="false">
+                            <b:row>
+                                <br></br>
+                            </b:row>
+                            <b:row>
+                                <b:column span="10" offset="1">
+                                    <b:inputText placeholder="Nome Completo" value="#{usuarioController.atual.nome}">
+                                        <f:facet name="prepend">             
+                                            <b:iconAwesome name="fa fa-male"></b:iconAwesome>
+                                        </f:facet>
+                                    </b:inputText>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column span="10" offset="1">
+                                    <b:inputText placeholder="Login"  value="#{usuarioController.atual.login}">
+                                        <f:facet name="prepend">             
+                                            <b:iconAwesome name="fa fa-user"></b:iconAwesome>
+                                        </f:facet>
+                                    </b:inputText>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column span="10" offset="1">
+                                    <b:inputText placeholder="E-mail"  value="#{usuarioController.atual.email}">
+                                        <f:facet name="prepend">             
+                                            <b:iconAwesome name="fa fa-at"></b:iconAwesome>
+                                        </f:facet>
+                                    </b:inputText>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column span="10" offset="1">
+                                    <b:inputText class="form-control bf-no-message" type="password" placeholder="Senha"  
+                                                 value="#{usuarioController.atual.senha}">
+                                        <f:facet name="prepend">             
+                                            <b:iconAwesome name="fa fa-lock"></b:iconAwesome>
+                                        </f:facet>
+                                    </b:inputText>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column span="10" offset="1">
+                                    <b:inputText class="form-control bf-no-message" type="password" placeholder="Confirmar senha"  
+                                                 value="#{usuarioController.atual.senhaVericacao}" >
+                                        <f:facet name="prepend">             
+                                            <b:iconAwesome name="fa fa-lock"></b:iconAwesome>
+                                        </f:facet>
+                                    </b:inputText>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <br></br>
+                            </b:row>
+                            <b:row>
+                                <b:column span="8" offset="2">
+                                    <b:commandButton value="Criar conta" look="success" style="width:100%"
+                                                     action="#{usuarioController.saveAtual()}"
+                                                     update=":form:main"
+                                                     />
+                                </b:column>
+                            </b:row>
+                        </b:panel>
+                    </b:column>
+                </b:row>
+            </h:form>
+        </ui:define>
+
+
+    </ui:decorate>
+</html>

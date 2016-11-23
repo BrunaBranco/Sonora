@@ -1,0 +1,187 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.edu.ifsc.sonora.dao;
+
+import br.edu.ifsc.sonora.entidade.AbstractEntity;
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import org.bson.types.ObjectId;
+import org.jongo.Find;
+import org.jongo.FindOne;
+import org.jongo.MongoCollection;
+
+/**
+ *
+ * Classe abstrata que trata conexao com mongo
+ *
+ * @author renato
+ */
+public abstract class AbstractNoSQLDAO<E extends AbstractEntity> implements Serializable {
+
+    private MongoCollection table;
+    private Class clazz;
+    private E last;
+
+    public void init(Class clazz) {
+        try {
+            this.clazz = clazz;
+            table = getMongoFactory().getCollectionInstance(getModelName());
+        } catch (Exception ex) {
+            System.err.println("Erro ao conectar mongo na tabela: " + getModelName());
+            ex.printStackTrace();
+        }
+    }
+
+    public abstract MongoConnectionFactory getMongoFactory();
+
+    public void setTable(MongoCollection table) {
+        this.table = table;
+    }
+
+    public void setClazz(Class clazz) {
+        this.clazz = clazz;
+    }
+
+    public E save(E e) throws Exception {
+        table.save(e);
+        return e;
+    }
+
+    public void removeAll() throws Exception {
+        table.remove("{}");
+    }
+
+    public void remove(E e) throws Exception {
+        table.remove(new ObjectId(e.getId()));
+    }
+
+    public void remove(String id) throws Exception {
+        table.remove(new ObjectId(id));
+    }
+
+    public MongoCollection getTable() {
+        return table;
+    }
+
+    public E getObject(ObjectId id) throws Exception {
+        return (E) table.findOne(id).as(clazz);
+    }
+
+    public E getObject(String id) throws Exception {
+
+        return (E) table.findOne(new ObjectId(id)).as(clazz);
+    }
+
+    public List<E> getObjects(String jsonQuery) throws Exception {
+
+        Find find = table.find(jsonQuery);
+        Iterable it = find.as(clazz);
+
+        return Lists.newArrayList(it);
+    }
+
+    public List<E> getObjectsIndex(String jsonQuery, String index) throws Exception {
+        Find find = table.find(jsonQuery);
+        Iterable it = find.as(clazz);
+
+        return Lists.newArrayList(it);
+    }
+
+    public E getLast() {
+
+        Find find = table.find().sort("{$natural:-1}").limit(1);
+
+        Iterable it = find.as(clazz);
+        ArrayList res = Lists.newArrayList(it);
+        if (res.isEmpty()) {
+            return newInstance();
+        } else {
+            return (E) res.get(0);
+        }
+
+    }
+
+    public List<E> getLast(int qtd) throws Exception {
+        long total = table.count();
+        if (total < qtd) {
+            return getAll();
+        } else {
+            return getAll((int) (total - qtd), qtd);
+        }
+    }
+
+    public List<E> getObjectsIndex(String jsonQuery, String index, int from, int size) throws Exception {
+        Find find = table.find(jsonQuery).skip(from).limit(size);
+        Iterable it = find.as(clazz);
+
+        return Lists.newArrayList(it);
+    }
+
+    public List<E> getObjects(String jsonQuery, int from, int size) throws Exception {
+        Find find = table.find(jsonQuery).skip(from).limit(size);
+        Iterable it = find.as(clazz);
+
+        return Lists.newArrayList(it);
+    }
+
+    public List<E> getAll() {
+
+        Find find = table.find();
+        Iterable it = find.as(clazz);
+
+        return Lists.newArrayList(it);
+    }
+
+    public List<E> getAll(int start, int size, String filtro, String fields) throws Exception {
+        System.out.println("Procurando por 1: " + filtro);
+
+        if (!Strings.isNullOrEmpty(filtro)) {
+
+            filtro = filtro.replaceAll("\\)", "\\}");
+            filtro = filtro.replaceAll("\\(", "\\{");
+            filtro = String.format("{%s}", filtro);
+            if (!Strings.isNullOrEmpty(fields)) {
+                fields = fields.replaceAll(",", ":1,") + ":1";
+            }
+
+            System.out.println("Procurando por 2: " + filtro + " Campos: " + fields);
+            Iterable it = table.find(filtro).projection("{" + fields + "}").skip(start).limit(size).as(clazz);
+            return Lists.newArrayList(it);
+        } else {
+            return getAll(start, size);
+        }
+
+    }
+
+    public List<E> getAll(int start, int size) throws Exception {
+        Iterable it = table.find().skip(start).limit(size).as(clazz);
+        return Lists.newArrayList(it);
+    }
+
+    public long getTotal() throws Exception {
+        return table.count();
+    }
+
+    public String getModelName() {
+        return clazz.getSimpleName().toLowerCase();
+    }
+
+    public E getObject(String campo, String valor) throws Exception {
+        String select = String.format("{%s:'%s'}", campo, valor);
+
+        FindOne find = table.findOne(select);
+
+        return (E) find.as(clazz);
+    }
+
+    public long getCount(String query) throws Exception {
+        return table.count(query);
+    }
+
+    public abstract E newInstance();
+}

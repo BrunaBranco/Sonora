@@ -1,0 +1,76 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:decorate template="template/template.xhtml">
+        <ui:define name="centro">
+            <h:form id="form">
+                <b:container fluid="true"> 
+                    <b:row class="center-block">
+                        <b:column medium-screen="12" class="center-block">
+                            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="false"/>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column medium-screen="12"   >
+                            <b:column medium-screen="6" >
+                                <p:row>
+                                    <b:column medium-screen="12"> 
+
+                                        <b:row >
+                                            <h1>CONFIGURAÇÃO</h1>
+                                        </b:row>
+                                        <b:row style="margin-bottom: 30px;">
+                                            <h2>CONFIGURAÇÃO DO AMBIENTE</h2>
+
+                                        </b:row>
+                                    </b:column>
+                                </p:row>
+
+                            </b:column>
+                            <b:column medium-screen="6" style="margin: auto; margin-bottom: 20px">
+                                <b:row>
+                                    <img src="#{request.contextPath}/imagens/config.png" alt="Generic placeholder thumbnail"/>
+
+                                </b:row>
+                            </b:column>
+
+                        </b:column>
+                    </b:row>
+
+                    <b:panel id="main" title="Cadastro de Tags">
+                        <b:row>
+                            <b:column span="4">
+                                <b:inputText placeholder="REST Base-Sonora" value="#{configurationController.atual.ipSonora}">
+                                    <f:facet name="prepend">             
+                                        <b:iconAwesome name="fa fa-cog"></b:iconAwesome>
+                                    </f:facet>
+                                </b:inputText>
+                            </b:column>
+                            <!--<b:column medium-screen="2">
+                                <h:outputText value="REST Base-Sonora"/>
+                            </b:column>
+                            <b:column medium-screen="4">
+                                <b:inputText placeholder="REST Base-Sonora" value="#{configurationController.atual.ipSonora}"/>
+                            </b:column>
+                            <b:column medium-screen="6">
+                            </b:column>-->
+                        </b:row>
+                       
+                        <b:row>
+                            <b:column span="2">
+                                <b:commandButton value="Salvar" look="primary" style="width:100%"
+                                                 action="#{configurationController.saveAtual()}"
+                                                 update=":form:main"
+                                                 />
+                            </b:column>
+                        </b:row>
+                    </b:panel>
+
+                </b:container>
+            </h:form>
+        </ui:define>
+    </ui:decorate>
+</html>

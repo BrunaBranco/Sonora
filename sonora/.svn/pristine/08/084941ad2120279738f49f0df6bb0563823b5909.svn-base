@@ -1,0 +1,88 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+        <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+        <script type="text/javascript">
+
+            function callTag() {
+                var elemento = document.getElementById('form:rfid').value;
+                var url = '/iotrepo/rest/sonora/tag/' + elemento;
+                $.getJSON(url,
+                        function (data) {
+                            responsiveVoice.speak(data.descricao, "Brazilian Portuguese Female");
+                        });
+
+
+
+
+            }
+        </script>
+    </h:head>
+    <ui:decorate template="template/template.xhtml">
+        <ui:define name="centro"> 
+            <h:form id="form">
+                <b:container fluid="true"> 
+                    <b:row class="center-block">
+                        <b:column medium-screen="12" class="center-block">
+                            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="false"/>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column medium-screen="12"   >
+                            <b:column col-xs="12" col-sm="6" col-md="6">
+                                <p:row>
+                                    <b:column medium-screen="12"> 
+                                        <b:row >
+                                            <h1>SONORA-DEVICE</h1>
+                                        </b:row>
+                                        <b:row style="margin-bottom: 30px;">
+                                            <h2>CONSULTA DE RFID</h2>
+
+                                        </b:row>
+                                    </b:column>
+                                </p:row>
+
+                            </b:column>
+                            <b:column medium-screen="6" style="margin: auto; margin-bottom: 20px">
+                                <b:row>
+                                    <img src="#{request.contextPath}/imagens/cloud.png" alt="Generic placeholder thumbnail"/>
+
+                                </b:row>
+                            </b:column>
+                        </b:column>
+                    </b:row>
+                    
+                    <b:panel  title="Sonora" collapsible="false">
+                        <b:row>
+                            <b:column span="4">
+                                <b:inputText placeholder="RFID" id="rfid">
+                                    <f:facet name="prepend">             
+                                        <b:iconAwesome name="fa fa-rss"></b:iconAwesome>
+                                    </f:facet>
+                                </b:inputText>
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                            <b:column span="2" >
+                                <b:commandButton value="Consultar" look="primary" style="width:100%"
+                                                 onclick="callTag();"/>
+                            </b:column>
+                        </b:row>
+
+                        <!--<p:panel id="main">
+                        <h:outputLabel for="rfid" value="RFID:" />
+                        <p:inputText id="rfid" />
+                        <p:commandButton value="Consultar" onclick="callTag();"/>-->
+                        <!--</p:panel>-->
+
+                    </b:panel>
+                </b:container>
+            </h:form>
+        </ui:define>
+    </ui:decorate>
+</html>

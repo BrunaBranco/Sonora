@@ -1,0 +1,45 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:decorate template="template/templatelogin.xhtml">
+        <ui:define name="centro">
+            <h:form  id="form">
+                <b:container fluid="true"> 
+                    <b:row class="center-block">
+                        <b:column medium-screen="12" class="center-block">
+                            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="false"/>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column medium-screen="12"   >
+                            <b:column col-xs="12" col-sm="6" col-md="6">
+                                <p:row>
+                                    <b:column medium-screen="12"> 
+                                        <b:row >
+                                            <h1>SONORA</h1>
+                                        </b:row>
+                                        <b:row style="margin-bottom: 30px;">
+                                            <h2>AMBIENTE DE AUDIODESCRIÇÃO - IOT</h2>
+                                        </b:row>
+                                    </b:column>
+                                </p:row>
+
+                            </b:column>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="6">
+                            só pra testar
+                        </b:column>
+                        <b:column span="6">
+                            só pra testar
+                        </b:column>
+                        </b:row>
+                </b:container>
+            </h:form>
+        </ui:define>
+    </ui:decorate>
+</html>

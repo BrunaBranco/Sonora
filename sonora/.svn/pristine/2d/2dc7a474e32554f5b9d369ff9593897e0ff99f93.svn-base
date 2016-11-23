@@ -1,0 +1,149 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.edu.ifsc.sonora.service;
+
+import br.edu.ifsc.sonora.dao.AbstractNoSQLDAO;
+import br.edu.ifsc.sonora.entidade.AbstractEntity;
+import br.edu.ifsc.sonora.entidade.Usuario;
+import br.edu.ifsc.sonora.util.Notificacao;
+import com.mongodb.DB;
+import com.mongodb.Mongo;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.jongo.Jongo;
+import org.jongo.MongoCollection;
+
+/**
+ *
+ * @author renato
+ */
+public abstract class AbstractNoSQLController<E extends AbstractEntity, DAO extends AbstractNoSQLDAO> {
+
+    public abstract DAO getDao();
+    //private String login, senha;
+
+    public E getLast() {
+        return (E) getDao().getLast();
+    }
+
+    public List<E> getAll() {
+        return getDao().getAll();
+    }
+
+    private E atual, teste;
+
+    public void init() {
+        atual = newInstance();
+    }
+
+    public E getAtual() {
+        return atual;
+    }
+
+    public void setAtual(E atual) {
+        this.atual = atual;
+    }
+
+    public void saveAtual() throws Exception {
+        if (atual.getId() == null) {
+            getDao().save(atual);
+            Notificacao.growl(getModule(), atual + " Cadastrado");
+        } else {
+            getDao().save(atual);
+            Notificacao.growl(getModule(), atual + " Atualizado");
+        }
+        System.out.println(getDao().getAll());
+        atual = newInstance();
+    }
+
+    public void saveUsuario() throws Exception {
+        Usuario u = (Usuario) atual;
+        if (!(u.getNome().isEmpty() && u.getLogin().isEmpty() && u.getEmail().isEmpty()
+                && u.getSenha().isEmpty() && u.getSenhaVericacao().isEmpty())) {
+            if (u.getSenha().equals(u.getSenhaVericacao())) {
+                if (!findAtual(u.getLogin())) {
+                    //------salvando
+                    if (atual.getId() == null) {
+                        getDao().save(atual);
+                        Notificacao.growl(getModule(), "Usuário cadastrado com sucesso");
+                    } else {
+                        getDao().save(atual);
+                        Notificacao.growl(getModule(), "Usuário atualizado");
+                    }
+                    atual = newInstance();
+                    //-------
+                } else {
+                    Notificacao.growl(getModule(), "Este login já existe. Tente outro");
+                }
+            } else {
+                Notificacao.growl(getModule(), "Senhas não coincidem");
+            }
+        }
+    }
+
+    public boolean findAtual(String login) {
+        try {
+            List<Usuario> l = getDao().getAll();
+            for (Usuario usuarios : l) {
+                if (usuarios.getLogin().equals(login)) {
+                    return true;
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AbstractNoSQLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean findAtual(String login, String senha) {
+        try {
+            List<Usuario> l = getDao().getAll();
+            for (Usuario usuarios : l) {
+                if (usuarios.getLogin().equals(login) && usuarios.getSenha().equals(senha)) {
+                    return true;
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AbstractNoSQLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public void findAtual() {
+        Usuario u = (Usuario) atual;
+        if (!(u.getLogin().isEmpty() && u.getSenha().isEmpty())) {
+            try {
+                List<Usuario> l = getDao().getAll();
+                if (findAtual(u.getLogin(), u.getSenha())) {
+                    System.out.println("é esse: " + u);
+                    Notificacao.growl(getModule(), "Login Efetuado");
+                } else {
+                    Notificacao.growl(getModule(), "Usuário ou senha inválido");
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(AbstractNoSQLController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public abstract E newInstance();
+
+    public void remove(E e) throws Exception {
+
+        getDao().remove(e);
+        Notificacao.growl("E", e + " Removido");
+
+    }
+
+    public void removeAtual() throws Exception {
+        getDao().remove(atual);
+        atual = newInstance();
+    }
+
+    public abstract String getModule();
+
+}

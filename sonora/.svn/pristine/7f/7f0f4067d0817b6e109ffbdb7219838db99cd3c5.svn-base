@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Meu Sistema</title>
+        <style type="text/css">
+            .ui-widget,
+            .ui-widget .ui-widget {
+                font-size: 12px !important;
+            }
+
+
+        </style> 
+        <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/imagens/favicon.ico"/>
+
+    </h:head>
+    <h:body onload="">
+        <p:growl id="growl" showDetail="true" />  
+        <b:navBar brand="Início" brandHref="index.xhtml" inverse="true">
+            <b:navbarLinks>
+                <b:navLink value="Sonora" href="sonora.xhtml"></b:navLink>
+                <b:navLink value="Sonora-Device" href="sonora_device.xhtml"></b:navLink>
+                <b:navLink value="QRCode" href="qrcode/index.html"></b:navLink>
+            </b:navbarLinks>
+
+        </b:navBar>
+
+        <b:panel>
+            <ui:insert name="centro">
+                O que estiver aqui será substituido!
+            </ui:insert>
+        </b:panel>
+
+    </h:body>
+</html>

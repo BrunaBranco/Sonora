@@ -17,6 +17,7 @@
         <script type="text/javascript" src="cordova.js"></script>
         <script src="js/app.js"></script>
     </head>
+
     <body ng-app="starter">
 
         <ion-pane ng-controller="mainController">
@@ -39,98 +40,40 @@
                   </div>
                 </div>
 
-                <div class="list list-inset">
+                <div class="list list-inset" >
                     <label class="item item-input">
                         <i class="icon ion-search placeholder-icon"></i>
                         <input type="text" placeholder="RFID" ng-model="texto" ng-keydown="rfid(texto)">
                     </label>
                 </div>
 
+                <div>
+                   <div class="item item-divider col col-33 col-offset-33" >
+                        Cadastro de Tags
+                    </div>
+                    <div class="list list-inset">
+                  <label class="item item-input ">
+                    <input type="text" placeholder="Tag" ng-model="tag.nome">
+                  </label>
+                  <label class="item item-input">
+                    <input type="text" placeholder="palavra" ng-model="tag.palavra">
+                  </label>
+                  
+                </div>
+                <div class="row">
+                    <div class="col col-50 col-offset-50">
+                        <button class="button button-calm button-positive" ng-click = "postTag()">Cadastrar</button>
+
+                    </div>
+                    
+                </div>
+
+
+                </div>
             </ion-content>
     </ion-pane>
 
+        
 
-
-        <!--<div data-role="page" id="home">
-            <div data-role="header">
-                <h1>Home</h1>
-            </div>
-
-            <div data-role="main" class="ui-content">
-                <p>
-                    <a href="javascript:scan2();" style="text-decoration: none"><button>Scan2</button></a>
-
-                    <a target="_blank" href="javascript:scan();" style="text-decoration: none"><button>Scan</button></a>
-                    <a target="_blank" href="#display" style="text-decoration: none"><button>Display Scanned Data</button></a>
-                </p>
-            </div>
-        </div>
-
-        <div data-role="page" id="display">
-            <div data-role="header">
-                <a target="_blank" href="#home" class="ui-btn ui-icon-home ui-btn-icon-left">Home</a>
-                <h1>Display</h1>
-            </div>
-
-            <div data-role="main" class="ui-content">
-                <table data-role="table" data-mode="column" id="allTable" class="ui-responsive table-stroke">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Value</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-
-        <script>
-            function scan()
-            {
-
-                cordova.plugins.barcodeScanner.scan(
-                    function (result) {
-                        if(!result.cancelled)
-                        {
-                            if(result.format == "QR_CODE")
-                            {
-                                window.alert(result.text);
-                                responsiveVoice.speak("teste", "Brazilian Portuguese Female");
-                                responsiveVoice.speak("teste", "Brazilian Portuguese Female");
-
-                            }
-                        }
-                    },
-                    function (error) {
-                        alert("Scanning failed: " + error);
-                    }
-               );
-            }
-
-
-            function openURL(url)
-            {
-                window.open(url, '_blank', 'location=yes');
-            }
-
-            //initialize
-            if(localStorage.getItem("LocalData") == null)
-            {
-                var data = [];
-                data = JSON.stringify(data);
-                localStorage.setItem("LocalData", data);
-            }
-
-            function scan2()
-            {
-                responsiveVoice.speak("teste", "Brazilian Portuguese Female");
-                responsiveVoice.speak("teste", "Brazilian Portuguese Female");
-
-            }
-
-        </script>-->
     </body>
 </html>

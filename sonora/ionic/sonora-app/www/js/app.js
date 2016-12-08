@@ -23,7 +23,7 @@ var app = angular.module('starter', ['ionic'])
   });
 })
 
-app.controller('mainController', function($scope, $ionicPopup, $ionicListDelegate){
+app.controller('mainController', function($scope, $ionicPopup, $ionicListDelegate, $http){
   $scope.texto;
   $scope.scan = function(){
     cordova.plugins.barcodeScanner.scan(
@@ -54,4 +54,27 @@ app.controller('mainController', function($scope, $ionicPopup, $ionicListDelegat
     responsiveVoice.speak(texto, "Brazilian Portuguese Female");
   };
 
+  $scope.tag = {};
+
+    $scope.postTag = function(){
+       $http.post('https://api.mlab.com/api/1/databases/iflab/collections/usuario?apiKey=XRSrAQkYZvpYR1cLVVbR5rknsPC0hZff', $scope.tag)
+      .success(function(response){
+        console.log(response);
+        angular.forEach(response, function(carregar){
+          $scope.playlists.push(carregar);
+        });
+      });
+
+      $scope.tag = {};
+
+    }
+
+
+
+
 });
+
+
+
+
+

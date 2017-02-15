@@ -14,6 +14,7 @@ app.run(function($ionicPlatform) {
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
+      window.alert("teste");
 
     }
     if (window.StatusBar) {
@@ -59,7 +60,7 @@ app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
         }
       }
     })
-  
+
     .state('tab.chat-detail', {
       url: '/chats/:chatId',
       views: {

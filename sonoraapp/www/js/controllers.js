@@ -2,7 +2,7 @@ var app = angular.module('starter.controllers', [])
 
 app.controller('DashCtrl', function($scope) {
 
-  $scope.scan = function(scan){
+  $scope.scan = function(){
     cordova.plugins.barcodeScanner.scan(
       function (result) {
         if(!result.cancelled)
@@ -12,6 +12,7 @@ app.controller('DashCtrl', function($scope) {
             //window.alert(result.text);
             responsiveVoice.speak(result.text, "Brazilian Portuguese Female");
             //responsiveVoice.speak("teste", "Brazilian Portuguese Female");
+            $scope.scan();
 
           }
         }
@@ -20,6 +21,7 @@ app.controller('DashCtrl', function($scope) {
         alert("Scanning failed: " + error);
       }
     );
+
   };
 
 
@@ -35,33 +37,6 @@ app.controller('ChatDetailCtrl', function($scope, $stateParams, $http, $ionicPop
 
   //$scope.texto;
 
-  // FUNÇÃO QUE A ISABEL MODIFICOU
- // $scope.scan = function(){
-   // $cordovaBarcodeScanner.scan(
-     // function (result) {
-       // if(!result.cancelled)
-        //{
-          //if(result.format == "QR_CODE")
-          //{
-            //window.alert(result.text);
-            //responsiveVoice.speak("teste", "Brazilian Portuguese Female");
-            //responsiveVoice.speak("teste", "Brazilian Portuguese Female");
-
-          //}
-        //}
-      //},
-      //function (error) {
-       // alert("Scanning failed: " + error);
-      //}
-    //);
-  //};
-
-// FUNÇÃO DE SEMPRE
-
-
-  //$scope.rfid = function(texto){
-    //responsiveVoice.speak(texto, "Brazilian Portuguese Female");
-  //};
 
     $scope.scan = function(){
     cordova.plugins.barcodeScanner.scan(
@@ -71,10 +46,11 @@ app.controller('ChatDetailCtrl', function($scope, $stateParams, $http, $ionicPop
           if(result.format == "QR_CODE")
           {
             window.alert(result.text);
-            //responsiveVoice.speak(result.text, "Brazilian Portuguese Female");
+            responsiveVoice.speak(result.text, "Brazilian Portuguese Female");
+            window.alert(result);
             //responsiveVoice.speak("teste", "Brazilian Portuguese Female");
-            $scope.getTag(result.text);
-              $scope.scan();
+            // $scope.getTag(result.text);
+            $scope.scan();
           }
         }
       },
